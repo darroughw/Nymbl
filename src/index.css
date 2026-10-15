@@ -5,7 +5,10 @@
   --color-border-strong: #c3c9d1;
   --color-text: #1a1d21;
   --color-text-muted: #5b6370;
-  --color-text-faint: #8891a0;
+  /* #8891a0 measured 3.18:1 on white — fails WCAG AA (4.5:1) for the
+     10-12px text it's used on in nine places (role-list meta, missing
+     chips, conflict context). #6b7280 holds 4.83:1 at the same weight. */
+  --color-text-faint: #6b7280;
 
   --color-accent: #2452c9;
   --color-accent-bg: #eaf0fe;
@@ -519,7 +522,11 @@ button {
   border: none;
   font-size: 16px;
   line-height: 1;
-  padding: 2px 6px;
+  /* 32x32 minimum hit area around the glyph — short of the 44px AAA
+     recommendation, but a deliberate compromise against the compare
+     card's density; full 44px is tracked as a follow-up. */
+  width: 32px;
+  height: 32px;
   color: var(--color-text-muted);
 }
 

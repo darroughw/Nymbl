@@ -41,16 +41,19 @@ export function CandidateTable({
         )
         const actualDivergesALot =
           c.actual !== null && Math.abs(c.actual.avgLoadPct - c.planLoad.confirmedPct) >= 15
+        const isSelected = compareIds.has(c.person.person_id)
+        const isAtCompareCap = !isSelected && compareIds.size >= 3
 
         return (
           <li key={c.person.person_id} className="candidate-row">
             <label className="candidate-row__select">
               <input
                 type="checkbox"
-                checked={compareIds.has(c.person.person_id)}
-                disabled={!compareIds.has(c.person.person_id) && compareIds.size >= 3}
+                checked={isSelected}
+                disabled={isAtCompareCap}
                 onChange={() => onToggleCompare(c.person.person_id)}
-                aria-label={`Add ${c.person.name} to comparison`}
+                aria-label={isSelected ? `Remove ${c.person.name} from comparison` : `Add ${c.person.name} to comparison`}
+                title={isAtCompareCap ? 'Compare holds up to 3 — remove one to add another' : undefined}
               />
             </label>
 
