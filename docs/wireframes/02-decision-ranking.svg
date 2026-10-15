@@ -1,0 +1,152 @@
+<svg viewBox="0 0 1280 1200" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect width="1280" height="1200" fill="#fbfbfa"/>
+
+  <text x="40" y="40" font-size="20" font-weight="700" fill="#111827">02 — Decision: ranked candidates, compare, missing data</text>
+  <text x="40" y="62" font-size="13" fill="#6b7280">Three visible facts drive the order, never one blended score. Conflicts and gaps stay on screen, not hidden.</text>
+
+  <!-- App frame -->
+  <rect x="40" y="90" width="1000" height="900" rx="8" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+  <rect x="40" y="90" width="1000" height="40" rx="8" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="60" y="115" font-size="12" fill="#6b7280">Software Engineer · Senior — Field Ops Platform — Northstar Energy</text>
+
+  <!-- Candidate rows -->
+  <g font-size="12">
+    <!-- Row 1: top match, available -->
+    <rect x="60" y="148" width="960" height="78" rx="6" fill="#ffffff" stroke="#d1d5db"/>
+    <rect x="76" y="176" width="16" height="16" rx="3" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="106" y="172" font-weight="700" fill="#111827">Omar Haddad</text>
+    <rect x="182" y="162" width="48" height="16" rx="8" fill="#dcfce7"/>
+    <text x="190" y="173" font-size="9" fill="#166534" font-weight="700">SENIOR</text>
+    <rect x="106" y="184" width="36" height="18" rx="3" fill="#dcfce7" stroke="#86efac"/>
+    <text x="113" y="197" font-size="10" fill="#166534">.NET</text>
+    <rect x="146" y="184" width="42" height="18" rx="3" fill="#dcfce7" stroke="#86efac"/>
+    <text x="153" y="197" font-size="10" fill="#166534">Azure</text>
+    <rect x="192" y="184" width="32" height="18" rx="3" fill="#dcfce7" stroke="#86efac"/>
+    <text x="198" y="197" font-size="10" fill="#166534">SQL</text>
+    <rect x="106" y="208" width="520" height="7" rx="3.5" fill="#e5e7eb"/>
+    <rect x="106" y="208" width="0" height="7" rx="3.5" fill="#15803d"/>
+    <text x="636" y="215" font-size="10" fill="#6b7280">0% booked · 100% if assigned here</text>
+    <rect x="840" y="178" width="76" height="30" rx="4" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="856" y="197" fill="#374151">Assign</text>
+
+    <!-- Row 2: overloaded, missing skills (Aisha-equivalent + Mei-equivalent combined for density) -->
+    <rect x="60" y="236" width="960" height="92" rx="6" fill="#ffffff" stroke="#d1d5db"/>
+    <rect x="76" y="264" width="16" height="16" rx="3" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="106" y="260" font-weight="700" fill="#111827">Aisha Bello</text>
+    <rect x="170" y="250" width="32" height="16" rx="8" fill="#f3f4f6"/>
+    <text x="176" y="261" font-size="9" fill="#374151" font-weight="700">MID</text>
+    <text x="208" y="261" font-size="10" fill="#9ca3af">Less senior than asked</text>
+    <rect x="106" y="272" width="30" height="18" rx="3" fill="#dcfce7" stroke="#86efac"/>
+    <text x="111" y="285" font-size="10" fill="#166534">SQL</text>
+    <rect x="140" y="272" width="36" height="18" rx="3" fill="none" stroke="#e4b3ae" stroke-dasharray="3 2"/>
+    <text x="145" y="285" font-size="10" fill="#9ca3af" text-decoration="line-through">.NET</text>
+    <rect x="180" y="272" width="42" height="18" rx="3" fill="none" stroke="#e4b3ae" stroke-dasharray="3 2"/>
+    <text x="186" y="285" font-size="10" fill="#9ca3af" text-decoration="line-through">Azure</text>
+    <rect x="106" y="296" width="520" height="7" rx="3.5" fill="#e5e7eb"/>
+    <rect x="106" y="296" width="520" height="7" rx="3.5" fill="#b91c1c"/>
+    <text x="636" y="303" font-size="10" fill="#b91c1c" font-weight="700">100% booked · 200% if assigned here</text>
+    <rect x="840" y="266" width="76" height="30" rx="4" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="856" y="285" fill="#374151">Assign</text>
+
+    <!-- Row 3: no skills on file -->
+    <rect x="60" y="338" width="960" height="92" rx="6" fill="#ffffff" stroke="#d1d5db"/>
+    <rect x="76" y="366" width="16" height="16" rx="3" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="106" y="362" font-weight="700" fill="#111827">Mei Tanaka</text>
+    <rect x="178" y="352" width="46" height="16" rx="8" fill="#f3f4f6"/>
+    <text x="186" y="363" font-size="9" fill="#374151" font-weight="700">JUNIOR</text>
+    <rect x="106" y="374" width="36" height="18" rx="3" fill="none" stroke="#e4b3ae" stroke-dasharray="3 2"/>
+    <text x="111" y="387" font-size="10" fill="#9ca3af" text-decoration="line-through">.NET</text>
+    <rect x="146" y="374" width="42" height="18" rx="3" fill="none" stroke="#e4b3ae" stroke-dasharray="3 2"/>
+    <text x="151" y="387" font-size="10" fill="#9ca3af" text-decoration="line-through">Azure</text>
+    <rect x="192" y="374" width="32" height="18" rx="3" fill="none" stroke="#e4b3ae" stroke-dasharray="3 2"/>
+    <text x="197" y="387" font-size="10" fill="#9ca3af" text-decoration="line-through">SQL</text>
+    <rect x="106" y="398" width="300" height="16" rx="8" fill="#feecea" stroke="#f3b9b2"/>
+    <text x="114" y="410" font-size="9" fill="#b42318" font-weight="700">NO SKILLS ON FILE — MATCH IS UNVERIFIED</text>
+    <rect x="840" y="368" width="76" height="30" rx="4" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="856" y="387" fill="#374151">Assign</text>
+  </g>
+
+  <!-- Compare drawer -->
+  <text x="60" y="464" font-size="11" font-weight="700" fill="#6b7280" letter-spacing="1">COMPARING 2</text>
+  <g>
+    <rect x="60" y="476" width="470" height="150" rx="6" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="80" y="502" font-size="14" font-weight="700" fill="#111827">Omar Haddad</text>
+    <text x="80" y="520" font-size="11" fill="#6b7280">Software Engineer, Senior</text>
+    <text x="80" y="546" font-size="10" fill="#9ca3af">SKILLS MATCHED</text>
+    <text x="80" y="562" font-size="12" fill="#111827">3 / 3</text>
+    <text x="220" y="546" font-size="10" fill="#9ca3af">LOAD NOW → IF ASSIGNED</text>
+    <text x="220" y="562" font-size="12" fill="#111827">0% → 100%</text>
+    <rect x="80" y="596" width="412" height="7" rx="3.5" fill="#e5e7eb"/>
+    <rect x="490" y="596" width="2" height="14" fill="#111827"/>
+    <rect x="80" y="608" width="130" height="26" rx="4" fill="#1d4ed8"/>
+    <text x="95" y="625" fill="#ffffff" font-weight="700" font-size="11">Assign Omar</text>
+
+    <rect x="550" y="476" width="470" height="150" rx="6" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="570" y="502" font-size="14" font-weight="700" fill="#111827">Aisha Bello</text>
+    <text x="570" y="520" font-size="11" fill="#6b7280">Software Engineer, Mid</text>
+    <text x="570" y="546" font-size="10" fill="#9ca3af">SKILLS MATCHED</text>
+    <text x="570" y="562" font-size="12" fill="#111827">1 / 3</text>
+    <text x="710" y="546" font-size="10" fill="#9ca3af">LOAD NOW → IF ASSIGNED</text>
+    <text x="710" y="562" font-size="12" fill="#b91c1c" font-weight="700">100% → 200%</text>
+    <rect x="570" y="596" width="412" height="7" rx="3.5" fill="#b91c1c"/>
+    <rect x="570" y="608" width="140" height="26" rx="4" fill="#1d4ed8"/>
+    <text x="585" y="625" fill="#ffffff" font-weight="700" font-size="11">Assign Aisha</text>
+  </g>
+
+  <!-- Numbered badges -->
+  <g font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">
+    <circle cx="1026" cy="154" r="11" fill="#1d4ed8"/>
+    <text x="1026" y="158">1</text>
+
+    <circle cx="630" cy="282" r="11" fill="#b91c1c"/>
+    <text x="630" y="286">2</text>
+
+    <circle cx="430" cy="406" r="11" fill="#b91c1c"/>
+    <text x="430" y="410">3</text>
+
+    <circle cx="1026" cy="464" r="11" fill="#1d4ed8"/>
+    <text x="1026" y="468">4</text>
+  </g>
+
+  <!-- Legend -->
+  <g font-size="13">
+    <circle cx="56" cy="672" r="10" fill="#1d4ed8"/>
+    <text x="56" y="676" font-weight="700" fill="#ffffff" text-anchor="middle" font-size="11">1</text>
+    <text x="76" y="677" fill="#111827" font-weight="700">Sort order: skills matched → availability → level fit.</text>
+    <text x="76" y="694" fill="#4b5563">Three separate facts, never blended into one score — an RM can see which fact is doing the work in any ranking.</text>
+
+    <circle cx="56" cy="718" r="10" fill="#b91c1c"/>
+    <text x="56" y="722" font-weight="700" fill="#ffffff" text-anchor="middle" font-size="11">2</text>
+    <text x="76" y="723" fill="#111827" font-weight="700">Overloaded is a hard red at ≥100%, not just a caution.</text>
+    <text x="76" y="740" fill="#4b5563">Someone already fully booked and about to go to 200% is flagged red, not amber — "fully booked" is already the state that matters.</text>
+
+    <circle cx="56" cy="764" r="10" fill="#b91c1c"/>
+    <text x="56" y="768" font-weight="700" fill="#ffffff" text-anchor="middle" font-size="11">3</text>
+    <text x="76" y="769" fill="#111827" font-weight="700">"No skills on file" is its own flag, not a silent zero.</text>
+    <text x="76" y="786" fill="#4b5563">Indistinguishable-from-zero and genuinely-has-none-of-these-skills are different facts; the RM needs to tell them apart.</text>
+
+    <circle cx="56" cy="810" r="10" fill="#1d4ed8"/>
+    <text x="56" y="814" font-weight="700" fill="#ffffff" text-anchor="middle" font-size="11">4</text>
+    <text x="76" y="815" fill="#111827" font-weight="700">Compare up to three, side by side, only if the ranked list isn't enough.</text>
+    <text x="76" y="832" fill="#4b5563">Optional second step — most roles should be answerable from the ranked list alone.</text>
+  </g>
+
+  <!-- Keyboard path -->
+  <rect x="40" y="860" width="1000" height="150" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="60" y="886" font-size="12" font-weight="700" fill="#111827">Keyboard path per row</text>
+  <g font-size="11" fill="#374151">
+    <rect x="60" y="902" width="90" height="28" rx="4" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="78" y="920">checkbox</text>
+    <text x="156" y="920" fill="#9ca3af">→ Tab →</text>
+    <rect x="212" y="902" width="130" height="28" rx="4" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="228" y="920">skill/level (static)</text>
+    <text x="348" y="920" fill="#9ca3af">→ Tab →</text>
+    <rect x="404" y="902" width="90" height="28" rx="4" fill="#ffffff" stroke="#9ca3af"/>
+    <text x="424" y="920">Assign</text>
+    <text x="500" y="920" fill="#9ca3af">→ Tab → next row's checkbox</text>
+  </g>
+  <text x="60" y="954" font-size="11" fill="#4b5563">Checkboxes disable (not hide) once 3 are selected for compare — a keyboard user tabbing through still lands on every</text>
+  <text x="60" y="970" font-size="11" fill="#4b5563">control and can tell why it's disabled, instead of controls silently vanishing from the tab sequence.</text>
+
+  <text x="40" y="1140" font-size="11" fill="#9ca3af">Harbor &amp; Pine staffing flow · wireframe 2 of 3 · grayscale = structure, accent color = annotation, not UI</text>
+</svg>
