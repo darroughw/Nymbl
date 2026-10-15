@@ -1,121 +1,152 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useMemo, useRef, useState } from 'react'
+import { useStaffingStore } from './data/useStaffingStore'
+import { candidatesForRole, type Candidate } from './lib/matching'
+import { OpenRolesList } from './components/OpenRolesList'
+import { RoleDetail } from './components/RoleDetail'
+import { CandidateTable } from './components/CandidateTable'
+import { CompareDrawer } from './components/CompareDrawer'
+import { AssignDialog, type OverlapRow } from './components/AssignDialog'
+import { RoleFilledPanel } from './components/RoleFilledPanel'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const store = useStaffingStore()
+  const { people, projects, assignments, timeOff, hoursLogged, openRoles, assignPerson, unassign } = store
+
+  const [selectedRoleId, setSelectedRoleId] = useState<string | null>(openRoles[0]?.open_role_id ?? null)
+  const [compareIds, setCompareIds] = useState<Set<string>>(new Set())
+  const [assignTarget, setAssignTarget] = useState<Candidate | null>(null)
+  const [liveMessage, setLiveMessage] = useState('')
+
+  const filledHeadingRef = useRef<HTMLHeadingElement>(null)
+
+  const selectedRole = openRoles.find((r) => r.open_role_id === selectedRoleId) ?? null
+  const selectedProject = projects.find((p) => p.project_id === selectedRole?.project_id)
+
+  const candidates = useMemo(() => {
+    if (!selectedRole || selectedRole.fill) return []
+    return candidatesForRole(selectedRole, people, assignments, timeOff, hoursLogged)
+  }, [selectedRole, people, assignments, timeOff, hoursLogged])
+
+  const compareList = candidates.filter((c) => compareIds.has(c.person.person_id))
+
+  function handleSelectRole(roleId: string) {
+    setSelectedRoleId(roleId)
+    setCompareIds(new Set())
+  }
+
+  function toggleCompare(personId: string) {
+    setCompareIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(personId)) next.delete(personId)
+      else if (next.size < 3) next.add(personId)
+      return next
+    })
+  }
+
+  function openAssignDialog(candidate: Candidate) {
+    setAssignTarget(candidate)
+  }
+
+  function closeAssignDialog() {
+    setAssignTarget(null)
+  }
+
+  function confirmAssign() {
+    if (!selectedRole || !assignTarget) return
+    assignPerson(selectedRole, assignTarget.person)
+    setLiveMessage(`${assignTarget.person.name} assigned to ${selectedRole.role_needed} on ${selectedProject?.name}.`)
+    setAssignTarget(null)
+    setCompareIds(new Set())
+    // The row that triggered this dialog is about to disappear — the role
+    // just became "filled," and that panel replaces the candidate table.
+    // Native focus-return-to-trigger has nothing to return to once that
+    // happens, so this moves focus explicitly instead of leaving it to fall
+    // back to <body>.
+    requestAnimationFrame(() => filledHeadingRef.current?.focus())
+  }
+
+  function handleUnassign() {
+    if (!selectedRole) return
+    const personName = people.find((p) => p.person_id === selectedRole.fill?.personId)?.name
+    unassign(selectedRole)
+    setLiveMessage(`${personName ?? 'Assignment'} removed. ${selectedRole.role_needed} is open again.`)
+  }
+
+  const overlapRows: OverlapRow[] = useMemo(() => {
+    if (!assignTarget || !selectedRole) return []
+    return assignments
+      .filter((a) => a.person_id === assignTarget.person.person_id)
+      .filter((a) => {
+        const overlapsStart = a.end_date === null || a.end_date >= selectedRole.start_date
+        const overlapsEnd = a.start_date <= selectedRole.end_date
+        return overlapsStart && overlapsEnd
+      })
+      .map((a) => ({
+        projectName: projects.find((p) => p.project_id === a.project_id)?.name ?? a.project_id,
+        allocationPct: a.allocation_pct,
+        status: a.status,
+      }))
+  }, [assignTarget, selectedRole, assignments, projects])
+
+  const filledByPerson = selectedRole?.fill ? people.find((p) => p.person_id === selectedRole.fill!.personId) : null
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-shell">
+      <header className="app-header">
+        <h1>{store.company}</h1>
+        <p>Staffing a new role · today is {store.asOf}</p>
+      </header>
 
-      <div className="ticks"></div>
+      <div aria-live="polite" className="sr-only">
+        {liveMessage}
+      </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <main className="app-layout">
+        <nav className="app-layout__roles" aria-label="Open roles navigation">
+          <OpenRolesList roles={openRoles} projects={projects} selectedId={selectedRoleId} onSelect={handleSelectRole} />
+        </nav>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        <section className="app-layout__workspace">
+          {!selectedRole ? (
+            <p className="empty-state">Select an open role to see who could fill it.</p>
+          ) : (
+            <>
+              <RoleDetail role={selectedRole} project={selectedProject} />
+
+              {filledByPerson ? (
+                <RoleFilledPanel ref={filledHeadingRef} person={filledByPerson} onUnassign={handleUnassign} />
+              ) : (
+                <>
+                  <CandidateTable
+                    role={selectedRole}
+                    candidates={candidates}
+                    compareIds={compareIds}
+                    onToggleCompare={toggleCompare}
+                    onAssign={openAssignDialog}
+                  />
+                  <CompareDrawer
+                    role={selectedRole}
+                    candidates={compareList}
+                    onRemove={toggleCompare}
+                    onAssign={openAssignDialog}
+                  />
+                </>
+              )}
+            </>
+          )}
+        </section>
+      </main>
+
+      <AssignDialog
+        open={assignTarget !== null}
+        candidate={assignTarget}
+        role={selectedRole}
+        project={selectedProject}
+        overlaps={overlapRows}
+        onConfirm={confirmAssign}
+        onCancel={closeAssignDialog}
+      />
+    </div>
   )
 }
 
