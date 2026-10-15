@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Env files — nothing in this app needs one yet, but this stays a hard
+# default so a future API key never lands in a commit by accident.
+.env
+.env.*
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
