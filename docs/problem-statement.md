@@ -22,4 +22,10 @@ The design's answer is to never let the plan number stand alone when logged real
 
 What I'd add next, past this five-hour scope: the same divergence flag belongs on the Monday view too, as a standing list — "people whose actual hours have disagreed with their plan for two+ consecutive weeks" — so an RM catches a slipping handoff before they're trying to staff around it under time pressure, rather than discovering it candidate-by-candidate while filling a specific role.
 
+## Where this sits against what's already on the market
+
+I checked six resource-planning products before assuming any of this needed inventing from scratch — Float, Runn, Resource Guru, Forecast, Kantata, and Productive.io, sized against Harbor & Pine's scale (full comparison in `docs/competitive-analysis.md`). Two of this prototype's choices turn out to be category-standard, not novel: Tentative-vs-Confirmed as a separate state (Runn, Productive already do this) and real-time overallocation flagging (Resource Guru, Runn). Three are not, and I'd call them the actual differentiation. None of the six build a dedicated "pick an open role → rank and compare candidates → see impact" flow — Float and Resource Guru are schedule-first, built around dragging a known person onto a known slot, and Float's Smart Assign and Forecast's AI scheduler both move toward auto-picking a candidate rather than showing the Resource Manager three legible facts and letting them decide. None surface logged-hours-vs-plan divergence inline at the moment of a staffing decision — the category treats logged time as a separate timesheet concern. And none appear to put a Proposed project's win probability directly in the assignment-confirmation dialog the way this prototype does.
+
+The honest gap: Kantata's algorithmic staffing optimization across dozens of parameters is a real capability this doesn't attempt. If Harbor & Pine ever grows past roughly 50 people, "three visible facts, no algorithm" may need to become "three visible facts, informed by an algorithm." That's a problem worth having, not one worth solving preemptively for a 25-person practice.
+
 Darrough West
