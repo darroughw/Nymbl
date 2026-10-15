@@ -4,6 +4,8 @@ Surface B. A Resource Manager picks an open role, sees who could fill it, compar
 
 This doc is the annotated wireframe the brief asks for. I built it as the working prototype instead of a separate static mockup, on purpose: the brief's own framing is "what ships is what matters, not the mockups," and a second artifact that isn't the real component tree would just be a second place for these decisions to drift out of sync with the code. Run it (`npm run dev`) to see every state below live. Screens referenced by component: [src/App.tsx](../src/App.tsx), [src/components/](../src/components/).
 
+Grayscale SVG wireframes for all six flows live in [docs/wireframes/](wireframes/). The three core screens (landing/triage, decision/ranking, commit/impact) are also built in Figma from real **Material 3 Design Kit** component instances — [Figma: Nymbl wireframes](https://www.figma.com/design/6DSWdNL44aREEIR4J9JV0s/dwest?node-id=47-563) — in case a component-backed version is more useful to review than SVG or code.
+
 ## Information structure
 
 ```
