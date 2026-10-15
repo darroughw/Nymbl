@@ -7,6 +7,7 @@ import { CandidateTable } from './components/CandidateTable'
 import { CompareDrawer } from './components/CompareDrawer'
 import { AssignDialog, type OverlapRow } from './components/AssignDialog'
 import { RoleFilledPanel } from './components/RoleFilledPanel'
+import { SpadeIcon } from './components/SpadeIcon'
 
 function App() {
   const store = useStaffingStore()
@@ -57,7 +58,7 @@ function App() {
     setLiveMessage(`${assignTarget.person.name} assigned to ${selectedRole.role_needed} on ${selectedProject?.name}.`)
     setAssignTarget(null)
     setCompareIds(new Set())
-    // The row that triggered this dialog is about to disappear — the role
+    // The row that triggered this dialog is about to disappear: the role
     // just became "filled," and that panel replaces the candidate table.
     // Native focus-return-to-trigger has nothing to return to once that
     // happens, so this moves focus explicitly instead of leaving it to fall
@@ -93,6 +94,10 @@ function App() {
   return (
     <div className="app-shell">
       <header className="app-header">
+        <div className="app-brand" aria-hidden="true">
+          <SpadeIcon className="app-brand__mark" width={14} height={17} />
+          <span>Rounders</span>
+        </div>
         <h1>{store.company}</h1>
         <p>Staffing a new role · today is {store.asOf}</p>
       </header>

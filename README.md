@@ -1,6 +1,12 @@
-# Nymbl Design Engineer Challenge: Harbor & Pine staffing flow
+# Rounders
+
+<img src="public/logo.svg" width="72" alt="Rounders logo: a king of spades card with a geometric crown" align="right">
+
+Nymbl Design Engineer Challenge: Harbor & Pine staffing flow.
 
 Surface B: pick an open role, see who could fill it, compare options, assign someone, and see the impact on their load and everyone else's before committing.
+
+The brief never names the tool itself, "Harbor & Pine" is the fictional client firm the sample data describes, not a product name (see [staffing-challenge-data/README.md](staffing-challenge-data/README.md)). I named it **Rounders**: the poker movie about reading people and making calculated bets under incomplete information, which is close to what the tool actually asks a Resource Manager to do, judge a Tentative assignment on a 60%-win-probability project, or a candidate whose logged hours disagree with the plan.
 
 ## Run it
 

@@ -1,13 +1,13 @@
 // One visual grammar for "how full is this person," reused everywhere a load
 // shows up: the candidate table, compare, the assign-impact preview. If the
 // bar looked different in each place, an RM would have to re-learn what
-// full means every time — the opposite of "speed as a feature."
+// full means every time, the opposite of "speed as a feature."
 export function LoadBar({
   pct,
   secondaryPct,
   label,
 }: {
-  /** Primary fill — usually the confirmed plan load. */
+  /** Primary fill, usually the confirmed plan load. */
   pct: number
   /** Optional second marker, e.g. "including this new role" or "actual logged." */
   secondaryPct?: number

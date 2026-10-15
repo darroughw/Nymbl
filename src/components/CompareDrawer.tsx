@@ -2,6 +2,7 @@ import type { Candidate } from '../lib/matching'
 import type { OpenRoleWithFill } from '../data/useStaffingStore'
 import { Badge } from './Badge'
 import { LoadBar } from './LoadBar'
+import { SpadeIcon } from './SpadeIcon'
 
 export function CompareDrawer({
   role,
@@ -24,6 +25,10 @@ export function CompareDrawer({
           const projectedPct = c.planLoad.confirmedPct + role.allocation_pct
           return (
             <article key={c.person.person_id} className="compare-card">
+              <div className="compare-card__index" aria-hidden="true">
+                <span>{c.person.level[0]}</span>
+                <SpadeIcon width={9} height={11} />
+              </div>
               <div className="compare-card__header">
                 <h4>{c.person.name}</h4>
                 <button
@@ -61,7 +66,7 @@ export function CompareDrawer({
               <LoadBar pct={c.planLoad.confirmedPct} secondaryPct={projectedPct} />
 
               {c.conflicts.length > 0 && (
-                <div className="candidate-row__flags">
+                <div className="candidate-card__flags">
                   {c.conflicts.map((f) => (
                     <Badge key={f.kind} tone={f.kind === 'time-off' ? 'warning' : 'danger'}>
                       {f.label}

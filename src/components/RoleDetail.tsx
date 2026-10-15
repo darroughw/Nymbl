@@ -3,7 +3,7 @@ import type { OpenRoleWithFill } from '../data/useStaffingStore'
 import { Badge } from './Badge'
 
 export function RoleDetail({ role, project }: { role: OpenRoleWithFill; project: Project | undefined }) {
-  // A role on a Proposed project isn't staffing work yet — it's a bet. Say
+  // A role on a Proposed project isn't staffing work yet, it's a bet. Say
   // that out loud here instead of letting the RM discover it three clicks
   // later when the "Confirmed" assignment they just made turns out to
   // depend on a client decision that hasn't happened.
@@ -16,7 +16,7 @@ export function RoleDetail({ role, project }: { role: OpenRoleWithFill; project:
           {role.role_needed} <span className="role-detail__level">· {role.level}</span>
         </h2>
         <div className="role-detail__project">
-          {project?.name ?? role.project_id} — {project?.client}
+          {project?.name ?? role.project_id}, {project?.client}
         </div>
       </div>
 

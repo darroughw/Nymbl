@@ -14,7 +14,7 @@ export interface OpenRoleWithFill extends OpenRole {
 
 // Everything here is session-only. There's no backend, which the brief says
 // is fine, but it means a page refresh forgets every assignment made. That
-// trade is explicit, not an oversight — see the AI log.
+// trade is explicit, not an oversight: see the AI log.
 export function useStaffingStore() {
   const [addedAssignments, setAddedAssignments] = useState<Assignment[]>([])
   const [fills, setFills] = useState<Record<string, RoleFill>>({})
@@ -32,7 +32,7 @@ export function useStaffingStore() {
   // A role tied to a Proposed project only becomes real work if the project
   // closes. Filling it should produce a Tentative assignment, same status
   // the existing data already uses for exactly this situation (A007, A012
-  // against the same PRJ-07) — not a Confirmed one that overstates what's
+  // against the same PRJ-07), not a Confirmed one that overstates what's
   // actually been committed.
   const assignPerson = useCallback(
     (role: OpenRole, person: Person) => {

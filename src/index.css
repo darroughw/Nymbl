@@ -1,36 +1,64 @@
 :root {
-  --color-bg: #f6f7f8;
+  --color-bg: #f5f6f8;
+  --color-sidebar: #eef0f4;
   --color-surface: #ffffff;
-  --color-border: #dde1e6;
-  --color-border-strong: #c3c9d1;
-  --color-text: #1a1d21;
-  --color-text-muted: #5b6370;
-  /* #8891a0 measured 3.18:1 on white — fails WCAG AA (4.5:1) for the
-     10-12px text it's used on in nine places (role-list meta, missing
-     chips, conflict context). #6b7280 holds 4.83:1 at the same weight. */
-  --color-text-faint: #6b7280;
+  --color-border: #e3e6ec;
+  --color-border-strong: #c7cdd6;
+  --color-text: #12151b;
+  --color-text-muted: #505865;
+  /* #8891a0 measured 3.18:1 on white, fails WCAG AA (4.5:1). #6b7280
+     fixed that on white (4.83:1) but the monochrome pass added faint
+     text on #eef0f3/#f5f6f8 gray backgrounds (stat chips, selected-role
+     meta, section labels), where #6b7280 drops to 4.23:1 and fails.
+     #5f6774 holds 4.5:1+ against every background this token actually
+     sits on, re-audited below. */
+  --color-text-faint: #5f6774;
 
-  --color-accent: #2452c9;
-  --color-accent-bg: #eaf0fe;
+  /* Monochrome by design: hue is reserved for nothing here, severity reads
+     through value alone (light gray → medium gray → black/inverted),
+     matching the logo and deck. Status text/badge pairs stay WCAG AA
+     checked the same as the color system they replaced. */
+  --color-accent: #12151b;
+  --color-accent-deep: #000000;
+  --color-accent-bg: #eef0f3;
 
-  --color-success: #15803d;
-  --color-success-bg: #e8f6ec;
-  --color-warning: #92400e;
-  --color-warning-bg: #fef3e0;
-  --color-danger: #b42318;
-  --color-danger-bg: #feeceb;
+  --color-success: #3a3f47;
+  --color-success-bg: #eef0f3;
+  --color-warning: #12151b;
+  --color-warning-bg: #c7cdd6;
+  --color-danger-bg: #12151b;
+  --color-danger-text: #ffffff;
   --color-neutral-bg: #eef0f3;
 
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  /* Load bars encode severity as a value ladder, not a badge pair, so they
+     get their own tokens instead of reusing the badge success/warning
+     colors above (those are tuned for text-on-chip contrast, not for
+     reading as a filled bar against the light track). */
+  --color-bar-ok: #b0b7c2;
+  --color-bar-warn: #6b7280;
+  --color-bar-danger: #12151b;
+
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
   --space-5: 24px;
   --space-6: 32px;
+  --space-7: 40px;
 
-  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --shadow-xs: 0 1px 2px rgba(18, 21, 27, 0.05);
+  --shadow-sm: 0 1px 3px rgba(18, 21, 27, 0.07), 0 1px 2px rgba(18, 21, 27, 0.04);
+  --shadow-md: 0 8px 20px rgba(18, 21, 27, 0.08), 0 2px 6px rgba(18, 21, 27, 0.05);
+  --shadow-lg: 0 24px 64px rgba(12, 15, 20, 0.24);
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --font: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 
   color-scheme: light;
 }
@@ -51,7 +79,9 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -76,13 +106,21 @@ button {
   color: inherit;
 }
 
-/* A visible focus ring is not optional here — this screen is explicitly
+/* A visible focus ring is not optional here: this screen is explicitly
    graded on keyboard operability, and outline:none without a real
    replacement is the single most common way a11y work gets undone by a
    later style pass. */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
 }
 
 .sr-only {
@@ -106,20 +144,40 @@ button {
 }
 
 .app-header {
-  padding: var(--space-4) var(--space-6);
+  padding: var(--space-5) var(--space-6);
   border-bottom: 1px solid var(--color-border);
   background: var(--color-surface);
+  box-shadow: var(--shadow-xs);
+  position: relative;
+  z-index: 1;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-faint);
+  margin-bottom: var(--space-2);
+}
+
+.app-brand__mark {
+  flex-shrink: 0;
 }
 
 .app-header h1 {
-  font-size: 18px;
-  font-weight: 650;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .app-header p {
   color: var(--color-text-muted);
   font-size: 13px;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 .app-layout {
@@ -132,17 +190,17 @@ button {
 .app-layout__roles {
   border-right: 1px solid var(--color-border);
   overflow-y: auto;
-  padding: var(--space-3);
-  background: var(--color-surface);
+  padding: var(--space-4) var(--space-3);
+  background: var(--color-sidebar);
 }
 
 .app-layout__workspace {
   overflow-y: auto;
-  padding: var(--space-5) var(--space-6);
+  padding: var(--space-6) var(--space-6) var(--space-7);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
-  max-width: 900px;
+  max-width: 920px;
 }
 
 .empty-state {
@@ -165,20 +223,25 @@ button {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: var(--space-3);
+  padding: var(--space-3) var(--space-4);
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow 150ms var(--ease), border-color 150ms var(--ease), transform 150ms var(--ease);
 }
 
 .role-list__item:hover {
   border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
 }
 
 .role-list__item--selected {
   border-color: var(--color-accent);
   background: var(--color-accent-bg);
+  box-shadow: inset 3px 0 0 var(--color-accent), var(--shadow-sm);
 }
 
 .role-list__item--filled {
@@ -193,7 +256,8 @@ button {
 }
 
 .role-list__role {
-  font-weight: 600;
+  font-weight: 650;
+  font-size: 14.5px;
 }
 
 .role-list__project {
@@ -212,11 +276,11 @@ button {
   display: inline-flex;
   align-items: center;
   font-size: 11px;
-  font-weight: 650;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  padding: 2px 7px;
-  border-radius: 999px;
+  letter-spacing: 0.03em;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
   white-space: nowrap;
 }
 
@@ -225,8 +289,10 @@ button {
   color: var(--color-text-muted);
 }
 .badge--info {
-  background: var(--color-accent-bg);
-  color: var(--color-accent);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border-strong);
+  padding: 2px 7px;
 }
 .badge--success {
   background: var(--color-success-bg);
@@ -238,7 +304,7 @@ button {
 }
 .badge--danger {
   background: var(--color-danger-bg);
-  color: var(--color-danger);
+  color: var(--color-danger-text);
 }
 
 /* ---------- Role detail ---------- */
@@ -246,12 +312,13 @@ button {
 .role-detail {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .role-detail__header h2 {
-  font-size: 20px;
-  font-weight: 650;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .role-detail__level {
@@ -262,32 +329,44 @@ button {
 .role-detail__project {
   color: var(--color-text-muted);
   font-size: 14px;
+  margin-top: 2px;
 }
 
 .role-detail__facts {
   display: flex;
-  gap: var(--space-6);
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.role-detail__facts > div {
+  background: var(--color-neutral-bg);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  min-width: 128px;
 }
 
 .role-detail__facts dt {
-  font-size: 11px;
+  font-size: 10.5px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   color: var(--color-text-faint);
 }
 
 .role-detail__facts dd {
-  font-size: 14px;
-  margin-top: 2px;
+  font-size: 15px;
+  font-weight: 650;
+  margin-top: 4px;
 }
 
 .role-detail__skills-label {
   font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   color: var(--color-text-faint);
   display: block;
-  margin-bottom: var(--space-1);
+  margin-bottom: var(--space-2);
 }
 
 /* ---------- Callouts ---------- */
@@ -295,20 +374,23 @@ button {
 .callout {
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
-  font-size: 13px;
-  border: 1px solid transparent;
+  font-size: 13.5px;
+  line-height: 1.5;
+  border-left: 3px solid transparent;
+  box-shadow: var(--shadow-xs);
 }
 
 .callout--warning {
   background: var(--color-warning-bg);
   color: var(--color-warning);
-  border-color: #f3d8a4;
+  border-left-color: var(--color-warning);
 }
 
 .callout--danger {
   background: var(--color-danger-bg);
-  color: var(--color-danger);
-  border-color: #f3b9b2;
+  color: var(--color-danger-text);
+  border-left-color: var(--color-danger-bg);
+  font-weight: 600;
 }
 
 /* ---------- Chips ---------- */
@@ -316,13 +398,14 @@ button {
 .chip-row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
 .chip {
   font-size: 12px;
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
+  font-weight: 550;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
   background: var(--color-neutral-bg);
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
@@ -331,91 +414,150 @@ button {
 .chip--match {
   background: var(--color-success-bg);
   color: var(--color-success);
-  border-color: #bfe3c9;
+  border-color: var(--color-border-strong);
+  font-weight: 650;
 }
 
 .chip--missing {
   background: transparent;
   color: var(--color-text-faint);
-  border-color: #e4b3ae;
+  border-color: var(--color-border-strong);
   border-style: dashed;
   text-decoration: line-through;
 }
 
-/* ---------- Candidate list ---------- */
+/* ---------- Candidate grid ----------
+   A grid of tall playing-card-shaped candidates, the corner pips make the
+   Rounders motif literal here since these are the cards an RM is actually
+   choosing between. Kept to light gray and small so the pips read as a
+   card's printed corner, not as another badge competing for attention. */
 
-.candidate-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+.candidate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-4);
 }
 
-.candidate-row {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: var(--space-3);
-  align-items: start;
+.candidate-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 320px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  padding-top: 34px;
+  padding-bottom: 30px;
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow 150ms var(--ease), border-color 150ms var(--ease), transform 150ms var(--ease);
 }
 
-.candidate-row__select {
-  padding-top: 3px;
+.candidate-card:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-border-strong);
+  transform: translateY(-1px);
 }
 
-.candidate-row__main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  min-width: 0;
+.candidate-card__pip {
+  position: absolute;
+  color: var(--color-border-strong);
+  pointer-events: none;
 }
 
-.candidate-row__name-line {
+.candidate-card__pip--tr {
+  top: 12px;
+  right: 14px;
+}
+
+.candidate-card__pip--bl {
+  bottom: 12px;
+  left: 14px;
+  transform: rotate(180deg);
+}
+
+.candidate-card__top {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.candidate-card__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-bg);
+  color: var(--color-accent-deep);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.candidate-card__name-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-2);
 }
 
-.candidate-row__name {
-  font-weight: 600;
-  font-size: 15px;
+.candidate-card__name {
+  font-weight: 650;
+  font-size: 15.5px;
 }
 
-.candidate-row__level-note {
+.candidate-card__level-note {
   font-size: 12px;
   color: var(--color-text-faint);
+  margin-top: -6px;
 }
 
-.candidate-row__load {
+.candidate-card__load {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  margin-top: auto;
+  padding-top: var(--space-2);
 }
 
-.candidate-row__load-label {
+.candidate-card__load-label {
   font-size: 12px;
   color: var(--color-text-muted);
 }
 
-.candidate-row__actual {
+.candidate-card__actual {
   font-size: 12px;
 }
 
-.candidate-row__actual--muted {
+.candidate-card__actual--muted {
   color: var(--color-text-faint);
 }
 
-.candidate-row__actual--warning {
+.candidate-card__actual--warning {
   color: var(--color-warning);
-  font-weight: 600;
+  font-weight: 650;
 }
 
-.candidate-row__flags {
+.candidate-card__flags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-1);
+}
+
+.candidate-card__flags .badge {
+  white-space: normal;
+  text-align: left;
+  line-height: 1.4;
+  padding: 6px 10px;
+}
+
+.candidate-card__assign {
+  width: 100%;
+  margin-top: var(--space-2);
 }
 
 /* ---------- Load bar ---------- */
@@ -429,9 +571,10 @@ button {
 .load-bar__track {
   position: relative;
   flex: 1;
-  height: 8px;
+  height: 10px;
   background: var(--color-neutral-bg);
-  border-radius: 999px;
+  border-radius: var(--radius-full);
+  box-shadow: inset 0 1px 2px rgba(18, 21, 27, 0.06);
   overflow: visible;
   min-width: 80px;
 }
@@ -439,40 +582,41 @@ button {
 .load-bar__fill {
   position: absolute;
   inset: 0;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   transition: width 0.15s ease-out;
 }
 
 .load-bar__fill--success {
-  background: var(--color-success);
+  background: var(--color-bar-ok);
 }
 .load-bar__fill--warning {
-  background: #d08a1c;
+  background: var(--color-bar-warn);
 }
 .load-bar__fill--danger {
-  background: var(--color-danger);
+  background: var(--color-bar-danger);
 }
 
 .load-bar__overflow {
   position: absolute;
   right: 0;
   top: -3px;
-  height: 14px;
+  height: 16px;
   background: repeating-linear-gradient(
     135deg,
-    var(--color-danger),
-    var(--color-danger) 3px,
+    var(--color-bar-danger),
+    var(--color-bar-danger) 3px,
     transparent 3px,
     transparent 6px
   );
-  border-radius: 999px;
+  border-radius: var(--radius-full);
 }
 
 .load-bar__marker {
   position: absolute;
   top: -3px;
   width: 2px;
-  height: 14px;
+  height: 16px;
+  border-radius: var(--radius-full);
   background: var(--color-text);
 }
 
@@ -486,20 +630,25 @@ button {
 
 .button {
   border-radius: var(--radius-sm);
-  padding: 7px 14px;
+  padding: 8px 16px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 650;
   cursor: pointer;
   border: 1px solid transparent;
+  transition: background 150ms var(--ease), box-shadow 150ms var(--ease), border-color 150ms var(--ease),
+    transform 150ms var(--ease);
 }
 
 .button--primary {
   background: var(--color-accent);
   color: white;
+  box-shadow: var(--shadow-xs);
 }
 
-.button--primary:hover {
-  background: #1d44ad;
+.button--primary:hover:not(:disabled) {
+  background: var(--color-accent-deep);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
 }
 
 .button--secondary {
@@ -508,13 +657,15 @@ button {
   color: var(--color-text);
 }
 
-.button--secondary:hover {
+.button--secondary:hover:not(:disabled) {
   background: var(--color-neutral-bg);
+  border-color: var(--color-text-faint);
 }
 
 .button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+  transform: none;
 }
 
 .button--icon {
@@ -522,25 +673,32 @@ button {
   border: none;
   font-size: 16px;
   line-height: 1;
-  /* 32x32 minimum hit area around the glyph — short of the 44px AAA
+  /* 32x32 minimum hit area around the glyph, short of the 44px AAA
      recommendation, but a deliberate compromise against the compare
      card's density; full 44px is tracked as a follow-up. */
   width: 32px;
   height: 32px;
+  border-radius: var(--radius-full);
   color: var(--color-text-muted);
+}
+
+.button--icon:hover {
+  background: var(--color-neutral-bg);
+  color: var(--color-text);
 }
 
 /* ---------- Compare drawer ---------- */
 
 .compare-drawer {
   border-top: 1px solid var(--color-border);
-  padding-top: var(--space-4);
+  padding-top: var(--space-5);
 }
 
 .compare-drawer h3 {
-  font-size: 13px;
+  font-size: 12.5px;
+  font-weight: 650;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   color: var(--color-text-faint);
   margin-bottom: var(--space-3);
 }
@@ -554,11 +712,32 @@ button {
 .compare-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: var(--space-4);
+  padding-top: 38px;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  box-shadow: var(--shadow-xs);
+  position: relative;
+  /* A second, inset rule line to echo a playing card's printed frame,
+     paired with the corner index below: restrained, not literal. */
+  outline: 1px solid var(--color-border);
+  outline-offset: -7px;
+}
+
+.compare-card__index {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text-faint);
 }
 
 .compare-card__header {
@@ -568,7 +747,8 @@ button {
 }
 
 .compare-card__header h4 {
-  font-size: 15px;
+  font-size: 15.5px;
+  font-weight: 650;
 }
 
 .compare-card__role {
@@ -577,63 +757,86 @@ button {
 }
 
 .compare-card__facts dt {
-  font-size: 11px;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   color: var(--color-text-faint);
   margin-top: var(--space-2);
 }
 
 .compare-card__facts dd {
-  font-size: 13px;
+  font-size: 13.5px;
+  margin-top: 2px;
 }
 
 /* ---------- Role filled panel ---------- */
 
 .role-filled-panel {
   background: var(--color-success-bg);
-  border: 1px solid #bfe3c9;
-  border-radius: var(--radius-md);
-  padding: var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
   align-items: flex-start;
+  box-shadow: var(--shadow-xs);
 }
 
 .role-filled-panel h3 {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: 15px;
+  font-size: 15.5px;
+  font-weight: 650;
+}
+
+.role-filled-panel h3::before {
+  content: '✓';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  background: var(--color-success);
+  color: white;
+  font-size: 12px;
+  flex-shrink: 0;
 }
 
 /* ---------- Assign dialog ---------- */
 
 .assign-dialog {
   border: none;
-  border-radius: var(--radius-md);
-  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
   width: min(480px, 90vw);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--shadow-lg);
 }
 
 .assign-dialog::backdrop {
-  background: rgba(20, 23, 28, 0.4);
+  background: rgba(15, 18, 24, 0.45);
+  backdrop-filter: blur(2px);
 }
 
 .assign-dialog h2 {
-  font-size: 17px;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .assign-dialog__subtitle {
   color: var(--color-text-muted);
   font-size: 13px;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 .assign-dialog h3 {
-  font-size: 12px;
+  font-size: 11.5px;
+  font-weight: 650;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   color: var(--color-text-faint);
   margin-top: var(--space-4);
   margin-bottom: var(--space-2);
@@ -642,24 +845,31 @@ button {
 .assign-dialog__overlap-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--space-2);
   font-size: 13px;
 }
 
 .assign-dialog__overlap-list li {
   display: flex;
   justify-content: space-between;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.assign-dialog__overlap-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .assign-dialog__overlap-new {
-  font-weight: 650;
+  font-weight: 700;
   color: var(--color-accent);
 }
 
 .assign-dialog__totals {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-4);
+  gap: var(--space-3);
   margin-top: var(--space-3);
   font-size: 12px;
 }
@@ -668,11 +878,14 @@ button {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  background: var(--color-neutral-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
 }
 
 .assign-dialog__actions {
   display: flex;
   justify-content: flex-end;
   gap: var(--space-2);
-  margin-top: var(--space-5);
+  margin-top: var(--space-6);
 }

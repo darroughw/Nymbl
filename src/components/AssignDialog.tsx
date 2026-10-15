@@ -12,9 +12,9 @@ export interface OverlapRow {
 
 // <dialog> instead of a hand-rolled modal div. It gets focus trapping,
 // Escape-to-close, and returning focus to the trigger for free, from the
-// browser, correctly, on every platform screen reader combination — which
-// is more than I'd trust a bespoke focus trap to get right in this amount
-// of time. Use the platform when the platform already does the job.
+// browser, correctly, on every platform screen reader combination. That's
+// more than I'd trust a bespoke focus trap to get right in this amount of
+// time. Use the platform when the platform already does the job.
 export function AssignDialog({
   open,
   candidate,
@@ -71,12 +71,12 @@ export function AssignDialog({
             Assign {candidate.person.name} to {role.role_needed}
           </h2>
           <p className="assign-dialog__subtitle">
-            {project?.name} — {role.start_date} to {role.end_date}
+            {project?.name}, {role.start_date} to {role.end_date}
           </p>
 
           {resultingStatus === 'Tentative' && (
             <div className="callout callout--warning" role="note">
-              {project?.name} hasn't closed. This records a <strong>Tentative</strong> assignment — it shows up as
+              {project?.name} hasn't closed. This records a <strong>Tentative</strong> assignment: it shows up as
               load but won't become real work unless the project is won.
             </div>
           )}
@@ -113,7 +113,7 @@ export function AssignDialog({
           {willOverallocate && (
             <div className="callout callout--danger" role="alert">
               This puts {candidate.person.name.split(' ')[0]} at {after}%, {after - 100} points over capacity. You
-              can still commit this — some overallocation is a real, temporary choice — but it won't be invisible.
+              can still commit this. Some overallocation is a real, temporary choice, but it won't be invisible.
             </div>
           )}
 

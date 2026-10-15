@@ -61,7 +61,7 @@
     <rect x="192" y="374" width="32" height="18" rx="3" fill="none" stroke="#e4b3ae" stroke-dasharray="3 2"/>
     <text x="197" y="387" font-size="10" fill="#9ca3af" text-decoration="line-through">SQL</text>
     <rect x="106" y="398" width="300" height="16" rx="8" fill="#feecea" stroke="#f3b9b2"/>
-    <text x="114" y="410" font-size="9" fill="#b42318" font-weight="700">NO SKILLS ON FILE — MATCH IS UNVERIFIED</text>
+    <text x="114" y="410" font-size="9" fill="#b42318" font-weight="700">NO SKILLS ON FILE: MATCH IS UNVERIFIED</text>
     <rect x="840" y="368" width="76" height="30" rx="4" fill="#ffffff" stroke="#9ca3af"/>
     <text x="856" y="387" fill="#374151">Assign</text>
   </g>

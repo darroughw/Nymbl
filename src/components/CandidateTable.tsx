@@ -2,8 +2,27 @@ import type { Candidate } from '../lib/matching'
 import type { OpenRoleWithFill } from '../data/useStaffingStore'
 import { Badge } from './Badge'
 import { LoadBar } from './LoadBar'
+import { SpadeIcon } from './SpadeIcon'
 
 const LEVEL_FIT_LABEL = { exact: 'Right level', above: 'More senior than asked', below: 'Less senior than asked' }
+
+function initials(name: string) {
+  return name
+    .split(' ')
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+}
+
+// Decorative only (aria-hidden, nothing a screen reader needs), the same
+// spade from the Rounders mark, drawn faint so it reads as a card motif
+// instead of competing with real data.
+function CornerPip({ corner }: { corner: 'tr' | 'bl' }) {
+  return (
+    <SpadeIcon className={`candidate-card__pip candidate-card__pip--${corner}`} width={13} height={15.6} />
+  )
+}
 
 export function CandidateTable({
   role,
@@ -21,19 +40,19 @@ export function CandidateTable({
   if (candidates.length === 0) {
     // Nobody with this job title exists in the practice at all. That's a
     // different problem than "nobody's available," and it needs a
-    // different next step — the RM should go recruit or borrow from
-    // another practice, not keep staring at an empty table waiting for an
-    // option to appear.
+    // different next step: the RM should go recruit or borrow from another
+    // practice, not keep staring at an empty table waiting for an option
+    // to appear.
     return (
       <p className="empty-state">
         No one in this practice holds the "{role.role_needed}" title. This role needs a hire or a loan from
-        another practice — there's no one here to compare.
+        another practice. There's no one here to compare.
       </p>
     )
   }
 
   return (
-    <ul className="candidate-list" aria-label={`Candidates for ${role.role_needed}`}>
+    <ul className="candidate-grid" aria-label={`Candidates for ${role.role_needed}`}>
       {candidates.map((c) => {
         const projectedPct = c.planLoad.confirmedPct + role.allocation_pct
         const hasHardConflict = c.conflicts.some(
@@ -45,74 +64,82 @@ export function CandidateTable({
         const isAtCompareCap = !isSelected && compareIds.size >= 3
 
         return (
-          <li key={c.person.person_id} className="candidate-row">
-            <label className="candidate-row__select">
-              <input
-                type="checkbox"
-                checked={isSelected}
-                disabled={isAtCompareCap}
-                onChange={() => onToggleCompare(c.person.person_id)}
-                aria-label={isSelected ? `Remove ${c.person.name} from comparison` : `Add ${c.person.name} to comparison`}
-                title={isAtCompareCap ? 'Compare holds up to 3 — remove one to add another' : undefined}
-              />
-            </label>
+          <li key={c.person.person_id} className="candidate-card">
+            <CornerPip corner="tr" />
+            <CornerPip corner="bl" />
 
-            <div className="candidate-row__main">
-              <div className="candidate-row__name-line">
-                <span className="candidate-row__name">{c.person.name}</span>
-                <Badge tone={c.levelFit === 'exact' ? 'success' : 'neutral'}>{c.person.level}</Badge>
-                {c.levelFit !== 'exact' && (
-                  <span className="candidate-row__level-note">{LEVEL_FIT_LABEL[c.levelFit]}</span>
-                )}
-              </div>
-
-              {role.skills_required.length > 0 && (
-                <div className="chip-row">
-                  {c.matchedSkills.map((s) => (
-                    <span key={s} className="chip chip--match">
-                      {s}
-                    </span>
-                  ))}
-                  {c.missingSkills.map((s) => (
-                    <span key={s} className="chip chip--missing">
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <div className="candidate-row__load">
-                <LoadBar pct={c.planLoad.confirmedPct} secondaryPct={projectedPct} />
-                <span className="candidate-row__load-label">
-                  {c.planLoad.confirmedPct}% booked during this window
-                  {c.planLoad.confirmedAndTentativePct > c.planLoad.confirmedPct &&
-                    ` (+${c.planLoad.confirmedAndTentativePct - c.planLoad.confirmedPct}% tentative)`}
-                  {' · '}
-                  {projectedPct}% if assigned here
-                </span>
-                {c.actual === null ? (
-                  <span className="candidate-row__actual candidate-row__actual--muted">No hours logged yet</span>
-                ) : actualDivergesALot ? (
-                  <span className="candidate-row__actual candidate-row__actual--warning">
-                    Actually logging {Math.round(c.actual.avgLoadPct)}% lately, not {c.planLoad.confirmedPct}%
-                  </span>
-                ) : null}
-              </div>
-
-              {c.conflicts.length > 0 && (
-                <div className="candidate-row__flags">
-                  {c.conflicts.map((f) => (
-                    <Badge key={f.kind} tone={f.kind === 'time-off' ? 'warning' : 'danger'}>
-                      {f.label}
-                    </Badge>
-                  ))}
-                </div>
-              )}
+            <div className="candidate-card__top">
+              <label className="candidate-card__select">
+                <input
+                  type="checkbox"
+                  checked={isSelected}
+                  disabled={isAtCompareCap}
+                  onChange={() => onToggleCompare(c.person.person_id)}
+                  aria-label={
+                    isSelected ? `Remove ${c.person.name} from comparison` : `Add ${c.person.name} to comparison`
+                  }
+                  title={isAtCompareCap ? 'Compare holds up to 3, remove one to add another' : undefined}
+                />
+              </label>
+              <span className="candidate-card__avatar" aria-hidden="true">
+                {initials(c.person.name)}
+              </span>
             </div>
+
+            <div className="candidate-card__name-line">
+              <span className="candidate-card__name">{c.person.name}</span>
+              <Badge tone={c.levelFit === 'exact' ? 'success' : 'neutral'}>{c.person.level}</Badge>
+            </div>
+            {c.levelFit !== 'exact' && (
+              <span className="candidate-card__level-note">{LEVEL_FIT_LABEL[c.levelFit]}</span>
+            )}
+
+            {role.skills_required.length > 0 && (
+              <div className="chip-row">
+                {c.matchedSkills.map((s) => (
+                  <span key={s} className="chip chip--match">
+                    {s}
+                  </span>
+                ))}
+                {c.missingSkills.map((s) => (
+                  <span key={s} className="chip chip--missing">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <div className="candidate-card__load">
+              <LoadBar pct={c.planLoad.confirmedPct} secondaryPct={projectedPct} />
+              <span className="candidate-card__load-label">
+                {c.planLoad.confirmedPct}% booked during this window
+                {c.planLoad.confirmedAndTentativePct > c.planLoad.confirmedPct &&
+                  ` (+${c.planLoad.confirmedAndTentativePct - c.planLoad.confirmedPct}% tentative)`}
+                {' · '}
+                {projectedPct}% if assigned here
+              </span>
+              {c.actual === null ? (
+                <span className="candidate-card__actual candidate-card__actual--muted">No hours logged yet</span>
+              ) : actualDivergesALot ? (
+                <span className="candidate-card__actual candidate-card__actual--warning">
+                  Actually logging {Math.round(c.actual.avgLoadPct)}% lately, not {c.planLoad.confirmedPct}%
+                </span>
+              ) : null}
+            </div>
+
+            {c.conflicts.length > 0 && (
+              <div className="candidate-card__flags">
+                {c.conflicts.map((f) => (
+                  <Badge key={f.kind} tone={f.kind === 'time-off' ? 'warning' : 'danger'}>
+                    {f.label}
+                  </Badge>
+                ))}
+              </div>
+            )}
 
             <button
               type="button"
-              className="button button--secondary"
+              className="button button--secondary candidate-card__assign"
               onClick={() => onAssign(c)}
               disabled={hasHardConflict}
               title={hasHardConflict ? 'Resolve the conflict above before assigning' : undefined}

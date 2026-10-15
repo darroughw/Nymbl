@@ -23,7 +23,7 @@ export function OpenRolesList({
 }) {
   const projectById = new Map(projects.map((p) => [p.project_id, p]))
 
-  // Must-fill work comes first on purpose — it's the work with no backup
+  // Must-fill work comes first on purpose: it's the work with no backup
   // plan if it stays empty. Filled roles stay in the list instead of
   // disappearing: a role that was just filled is still a fact worth seeing,
   // and yanking it out from under the RM the moment they act on it is how

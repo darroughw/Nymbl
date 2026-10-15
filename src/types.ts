@@ -48,7 +48,7 @@ export interface Assignment {
   allocation_pct: number
   start_date: string
   // Null in the source data for at least one row (A038). Treated as "no end
-  // date on file," not "runs forever" — see lib/capacity.ts.
+  // date on file," not "runs forever": see lib/capacity.ts.
   end_date: string | null
   status: AssignmentStatus
 }

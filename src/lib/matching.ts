@@ -27,7 +27,7 @@ export interface Candidate {
 }
 
 // Same-discipline only. A Resource Manager staffing a "Software Engineer"
-// role isn't choosing between a designer and an engineer — that comparison
+// role isn't choosing between a designer and an engineer, that comparison
 // doesn't exist in practice, and including it would just be noise standing
 // between the RM and the seven people who actually qualify.
 export function candidatesForRole(
@@ -69,7 +69,7 @@ export function candidatesForRole(
       })
     }
     if (person.skills.length === 0) {
-      conflicts.push({ kind: 'no-skills-on-file', label: 'No skills on file — match is unverified' })
+      conflicts.push({ kind: 'no-skills-on-file', label: 'No skills on file: match is unverified' })
     }
     if (planLoad.confirmedPct > 100) {
       conflicts.push({ kind: 'already-overallocated', label: `Already at ${planLoad.confirmedPct}% before this role` })
@@ -89,7 +89,7 @@ export function candidatesForRole(
 
   // Sort by what actually determines fitness, in the order an RM would
   // reason about it: can they do the work, do they have room, is the level
-  // right. No single blended score — a score would hide which of those
+  // right. No single blended score, a score would hide which of those
   // three is doing the work in any given ranking, and that's exactly the
   // kind of guessing this screen exists to remove.
   return candidates.sort((a, b) => {
