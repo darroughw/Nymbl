@@ -8,10 +8,13 @@ import { CompareDrawer } from './components/CompareDrawer'
 import { AssignDialog, type OverlapRow } from './components/AssignDialog'
 import { RoleFilledPanel } from './components/RoleFilledPanel'
 import { SpadeIcon } from './components/SpadeIcon'
+import { ThemeToggle } from './components/ThemeToggle'
+import { useTheme } from './hooks/useTheme'
 
 function App() {
   const store = useStaffingStore()
   const { people, projects, assignments, timeOff, hoursLogged, openRoles, assignPerson, unassign } = store
+  const { theme, toggle: toggleTheme } = useTheme()
 
   const [selectedRoleId, setSelectedRoleId] = useState<string | null>(openRoles[0]?.open_role_id ?? null)
   const [compareIds, setCompareIds] = useState<Set<string>>(new Set())
@@ -94,9 +97,12 @@ function App() {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <div className="app-brand" aria-hidden="true">
-          <SpadeIcon className="app-brand__mark" width={14} height={17} />
-          <span>Rounders</span>
+        <div className="app-header__top">
+          <div className="app-brand" aria-hidden="true">
+            <SpadeIcon className="app-brand__mark" width={14} height={17} />
+            <span>Rounders</span>
+          </div>
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </div>
         <h1>{store.company}</h1>
         <p>Staffing a new role · today is {store.asOf}</p>

@@ -11,6 +11,19 @@
       rel="stylesheet"
     />
     <title>Rounders · Harbor & Pine</title>
+    <script>
+      // Applied before React mounts so there's no flash of the wrong
+      // theme on load. Mirrors what the toggle itself does at runtime,
+      // see src/hooks/useTheme.ts.
+      (function () {
+        try {
+          var stored = localStorage.getItem('rounders-theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.setAttribute('data-theme', stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

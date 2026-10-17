@@ -21,6 +21,10 @@
   --color-accent: #12151b;
   --color-accent-deep: #000000;
   --color-accent-bg: #eef0f3;
+  /* Text/icons sitting on top of --color-accent or --color-accent-deep.
+     Not just "white": in dark mode the accent itself inverts to near-white,
+     so this has to invert too or it disappears into its own background. */
+  --color-on-accent: #ffffff;
 
   --color-success: #3a3f47;
   --color-success-bg: #eef0f3;
@@ -55,12 +59,94 @@
   --shadow-sm: 0 1px 3px rgba(18, 21, 27, 0.07), 0 1px 2px rgba(18, 21, 27, 0.04);
   --shadow-md: 0 8px 20px rgba(18, 21, 27, 0.08), 0 2px 6px rgba(18, 21, 27, 0.05);
   --shadow-lg: 0 24px 64px rgba(12, 15, 20, 0.24);
+  --color-backdrop: rgba(15, 18, 24, 0.45);
 
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
   --font: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 
   color-scheme: light;
+}
+
+/* Dark mode: the severity ladder inverts direction, not just hue. Light
+   mode reads urgency as distance-from-white (light gray → black). Here
+   it's distance-from-black (dark gray → white), so "loud" still means
+   maximum contrast against the page in both themes, not literally "dark"
+   or "light." Every pair below was re-run through the same contrast
+   script as the light palette, not eyeballed. System preference applies
+   unless an explicit choice (data-theme) overrides it either way. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #15171c;
+    --color-sidebar: #1a1d23;
+    --color-surface: #1f2228;
+    --color-border: #2d323c;
+    --color-border-strong: #6b7482;
+    --color-text: #f0f1f3;
+    --color-text-muted: #aab0bb;
+    --color-text-faint: #90969f;
+
+    --color-accent: #f0f1f3;
+    --color-accent-deep: #ffffff;
+    --color-accent-bg: #242830;
+    --color-on-accent: #15171c;
+
+    --color-success: #b8bdc7;
+    --color-success-bg: #242830;
+    --color-warning: #f0f1f3;
+    --color-warning-bg: #454b56;
+    --color-danger-bg: #f0f1f3;
+    --color-danger-text: #15171c;
+    --color-neutral-bg: #242830;
+
+    --color-bar-ok: #4a5160;
+    --color-bar-warn: #7a8392;
+    --color-bar-danger: #f0f1f3;
+
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.6);
+    --color-backdrop: rgba(0, 0, 0, 0.6);
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #15171c;
+  --color-sidebar: #1a1d23;
+  --color-surface: #1f2228;
+  --color-border: #2d323c;
+  --color-border-strong: #6b7482;
+  --color-text: #f0f1f3;
+  --color-text-muted: #aab0bb;
+  --color-text-faint: #90969f;
+
+  --color-accent: #f0f1f3;
+  --color-accent-deep: #ffffff;
+  --color-accent-bg: #242830;
+  --color-on-accent: #15171c;
+
+  --color-success: #b8bdc7;
+  --color-success-bg: #242830;
+  --color-warning: #f0f1f3;
+  --color-warning-bg: #454b56;
+  --color-danger-bg: #f0f1f3;
+  --color-danger-text: #15171c;
+  --color-neutral-bg: #242830;
+
+  --color-bar-ok: #4a5160;
+  --color-bar-warn: #7a8392;
+  --color-bar-danger: #f0f1f3;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.6);
+  --color-backdrop: rgba(0, 0, 0, 0.6);
+
+  color-scheme: dark;
 }
 
 * {
@@ -152,6 +238,13 @@ button {
   z-index: 1;
 }
 
+.app-header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
 .app-brand {
   display: flex;
   align-items: center;
@@ -161,11 +254,18 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--color-text-faint);
-  margin-bottom: var(--space-2);
 }
 
 .app-brand__mark {
   flex-shrink: 0;
+}
+
+.theme-toggle {
+  color: var(--color-text-muted);
+}
+
+.theme-toggle:hover {
+  color: var(--color-text);
 }
 
 .app-header h1 {
@@ -641,7 +741,7 @@ button {
 
 .button--primary {
   background: var(--color-accent);
-  color: white;
+  color: var(--color-on-accent);
   box-shadow: var(--shadow-xs);
 }
 
@@ -800,8 +900,8 @@ button {
   width: 22px;
   height: 22px;
   border-radius: var(--radius-full);
-  background: var(--color-success);
-  color: white;
+  background: var(--color-accent-deep);
+  color: var(--color-on-accent);
   font-size: 12px;
   flex-shrink: 0;
 }
@@ -817,7 +917,7 @@ button {
 }
 
 .assign-dialog::backdrop {
-  background: rgba(15, 18, 24, 0.45);
+  background: var(--color-backdrop);
   backdrop-filter: blur(2px);
 }
 

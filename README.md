@@ -33,10 +33,11 @@ The sample data's own ground rules ask for one more thing: "If you do [add field
 - **The same core screens in Figma**, built from real Material 3 Design Kit components, not flat shapes: [figma.com/design/6DSWdNL44aREEIR4J9JV0s](https://www.figma.com/design/6DSWdNL44aREEIR4J9JV0s/dwest?node-id=47-563).
 - **An accessibility pass** against the live app: measured contrast ratios, not eyeballed, logged in [docs/ai-process-log.md](docs/ai-process-log.md) and tracked in Linear.
 - **A walkthrough deck** [figma.com/slides/5lbawUAgE5OUBQ6APvf1nF](https://www.figma.com/slides/5lbawUAgE5OUBQ6APvf1nF): the problem, the market check, real screenshots of the flow working, and the three decisions worth defending. Speaker notes with the engineering nitty-gritty in [docs/speaker-notes.md](docs/speaker-notes.md).
+- **Light and dark mode**, the toggle in the header, or it follows your system by default. The severity ladder (what makes a load bar or a badge read as urgent) inverts direction between the two rather than just inverting colors: contrast against the page is what signals urgency in both.
 
 ## Tracking
 
-Full breakdown lives in the [Nymbl Design Engineer Challenge](https://linear.app/timewarptrivia/project/nymbl-design-engineer-challenge-cd1872118e5a) Linear project. What's still open: dark mode. Everything else that was open when this project started, the GitHub remote, a Carbon-vs-Material evaluation, is resolved and logged there.
+Full breakdown lives in the [Nymbl Design Engineer Challenge](https://linear.app/timewarptrivia/project/nymbl-design-engineer-challenge-cd1872118e5a) Linear project, 15 issues, all done. Nothing's currently open.
 
 ## Notable judgment calls
 
