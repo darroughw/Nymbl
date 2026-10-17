@@ -24,6 +24,8 @@ No backend. Reads [`staffing-challenge-data/staffing_data.json`](staffing-challe
 - **AI process log** [docs/ai-process-log.md](docs/ai-process-log.md).
 - **Problem statement** [docs/problem-statement.md](docs/problem-statement.md).
 
+The sample data's own ground rules ask for one more thing: "If you do [add fields, derive values or restructure the data], note it in your decision log." That log is [docs/decision-log.md](docs/decision-log.md), every added field, every derived value, and the three real anomalies in the data and how each was handled instead of silently fixed.
+
 ## Beyond the required four
 
 - **Competitive analysis** [docs/competitive-analysis.md](docs/competitive-analysis.md): Float, Runn, Resource Guru, Forecast, Kantata, and Productive.io, checked against Harbor & Pine's scale before assuming anything here needed inventing from scratch.
