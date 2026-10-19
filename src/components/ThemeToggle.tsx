@@ -6,7 +6,7 @@ import type { Theme } from '../hooks/useTheme'
 function MoonIcon() {
   return (
     <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
-      <path d="M12 3a9 9 0 1 0 0 18 7 7 0 0 1 0-18Z" />
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
     </svg>
   )
 }
