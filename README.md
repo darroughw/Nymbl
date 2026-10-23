@@ -10,7 +10,10 @@ The brief never names the tool itself, "Harbor & Pine" is the fictional client f
 
 ## Run it
 
+Needs Node 20.19+ or 22.12+ (Vite 8's requirement). With nvm, `nvm use` picks up the version from `.nvmrc`.
+
 ```
+nvm use
 npm install
 npm run dev
 ```
@@ -32,7 +35,7 @@ The sample data's own ground rules ask for one more thing: "If you do [add field
 - **Six wireframes** [docs/wireframes/](docs/wireframes/): the three Surface B states plus three flows the coded prototype doesn't cover (the Monday view, a Delivery Manager's request flow, and resolving a Proposed project's win/loss outcome).
 - **The same core screens in Figma**, built from real Material 3 Design Kit components, not flat shapes: [figma.com/design/6DSWdNL44aREEIR4J9JV0s](https://www.figma.com/design/6DSWdNL44aREEIR4J9JV0s/dwest?node-id=47-563).
 - **An accessibility pass** against the live app: measured contrast ratios, not eyeballed, logged in [docs/ai-process-log.md](docs/ai-process-log.md) and tracked in Linear.
-- **A walkthrough deck** [figma.com/slides/5lbawUAgE5OUBQ6APvf1nF](https://www.figma.com/slides/5lbawUAgE5OUBQ6APvf1nF): the problem, the market check, real screenshots of the flow working, and the three decisions worth defending. Speaker notes with the engineering nitty-gritty in [docs/speaker-notes.md](docs/speaker-notes.md).
+- **A walkthrough deck** [figma.com/slides/5lbawUAgE5OUBQ6APvf1nF](https://www.figma.com/slides/5lbawUAgE5OUBQ6APvf1nF): the problem, the market check, real screenshots of the flow working, and the three decisions worth defending.
 - **Light and dark mode**, the toggle in the header, or it follows your system by default. The severity ladder (what makes a load bar or a badge read as urgent) inverts direction between the two rather than just inverting colors: contrast against the page is what signals urgency in both.
 
 ## Tracking
