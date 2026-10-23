@@ -1,6 +1,17 @@
 # AI process log
 
-Tool: Claude Code (Sonnet 5), used as the primary builder for this challenge: not autocomplete, the actual pair. I drove direction and review; it wrote the data model, the ranking logic, the components, and the CSS, and I tested its output in a real browser rather than trusting the diff.
+Claude Code was the primary builder for this challenge: not autocomplete, the actual pair. I drove direction and review; it wrote the data model, the ranking logic, the components, and the CSS, and I tested its output in a real browser rather than trusting the diff.
+
+## Tools I used
+
+- **Claude Code** (Sonnet 5 for most of the build, Opus 5.5 for the later fixes and the help modal), in the VS Code extension. It did the building, the testing scripts, and the commits.
+- **A personal voice-profile skill** loaded into Claude Code, so code comments and docs read like me instead of default LLM style.
+- **Figma**, for the three core screens rebuilt from real Material 3 Design Kit components.
+- **Figma Slides**, for the walkthrough deck.
+- **Linear**, connected to Claude Code, to track the project as issues. All 15 are done.
+- **Google Chrome**, driven by script (Playwright and puppeteer-core) to click through flows, take screenshots in both themes, and check for console errors. Playwright's bundled browser won't run on my macOS version, so these scripts drive the installed Chrome instead.
+- **Vite, React, and TypeScript** for the app itself, with **oxlint** for linting.
+- **Git and GitHub** for version control.
 
 ## What I asked it to do, in order
 
