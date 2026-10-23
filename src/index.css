@@ -989,3 +989,81 @@ button {
   gap: var(--space-2);
   margin-top: var(--space-6);
 }
+
+/* ---------- Help dialog ----------
+   Reuses the assign dialog's shell; the samples are the live components,
+   so this only lays them out in a two-column key. */
+
+.help-dialog {
+  width: min(560px, 92vw);
+  max-height: 86vh;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.help-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.help-dialog__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.help-dialog__row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.help-dialog__sample {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.help-dialog__sample .load-bar {
+  flex: 1;
+}
+
+.help-dialog__desc {
+  color: var(--color-text-muted);
+}
+
+.help-dialog__desc strong {
+  color: var(--color-text);
+  font-weight: 650;
+}
+
+.help-dialog__index {
+  position: static;
+}
+
+.help-dialog__pip {
+  color: var(--color-border-strong);
+}
+
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.help-toggle {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .help-dialog__row {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+}

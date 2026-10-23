@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { useStaffingStore } from './data/useStaffingStore'
 import { candidatesForRole, type Candidate } from './lib/matching'
 import { OpenRolesList } from './components/OpenRolesList'
@@ -9,6 +9,7 @@ import { AssignDialog, type OverlapRow } from './components/AssignDialog'
 import { RoleFilledPanel } from './components/RoleFilledPanel'
 import { SpadeIcon } from './components/SpadeIcon'
 import { ThemeToggle } from './components/ThemeToggle'
+import { HelpDialog } from './components/HelpDialog'
 import { useTheme } from './hooks/useTheme'
 
 function App() {
@@ -20,6 +21,8 @@ function App() {
   const [compareIds, setCompareIds] = useState<Set<string>>(new Set())
   const [assignTarget, setAssignTarget] = useState<Candidate | null>(null)
   const [liveMessage, setLiveMessage] = useState('')
+  const [helpOpen, setHelpOpen] = useState(false)
+  const closeHelp = useCallback(() => setHelpOpen(false), [])
 
   const filledHeadingRef = useRef<HTMLHeadingElement>(null)
 
@@ -102,7 +105,18 @@ function App() {
             <SpadeIcon className="app-brand__mark" width={14} height={17} />
             <span>Rounders</span>
           </div>
-          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          <div className="app-header__actions">
+            <button
+              type="button"
+              className="button button--icon help-toggle"
+              onClick={() => setHelpOpen(true)}
+              aria-label="What the symbols mean"
+              title="What the symbols mean"
+            >
+              ?
+            </button>
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          </div>
         </div>
         <h1>{store.company}</h1>
         <p>Staffing a new role · today is {store.asOf}</p>
@@ -157,6 +171,8 @@ function App() {
         onConfirm={confirmAssign}
         onCancel={closeAssignDialog}
       />
+
+      <HelpDialog open={helpOpen} onClose={closeHelp} />
     </div>
   )
 }
